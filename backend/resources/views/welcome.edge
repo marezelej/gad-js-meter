@@ -1,35 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AdonisJS - A fully featured web framework for Node.js</title>
+  <title>GAD JM - Consultas por rango</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   @entryPointStyles('app')
   @entryPointScripts('app')
 </head>
 <body>
-
-  <main>
-    <div>
-      <h1 class="title"> It Works! </h1>
+  <div class="container">
+    <div class="pt-5">
+      <h1 class="title">Consulta de código por rango</h1>
       <p class="subtitle">
-        Congratulations, you have just created your first AdonisJS app.
+        A continuación introduzca una función JavaScript, un rango de búsqueda y ejecute su consulta.
       </p>
 
-      <ul>
-        <li>
-          The route for this page is defined inside <code>start/routes.ts</code> file
-        </li>
-
-        <li>
-          You can update this page by editing <code>resources/views/welcome.edge</code> file
-        </li>
-
-        <li>
-          If you run into problems, you can reach us on <a href="https://discord.gg/vDcEjq6?">Discord</a> or the <a href="https://forum.adonisjs.com/">Forum</a>.
-        </li>
-      </ul>
+      <form>
+        <div>
+          <label for="code" class="form-label">Código</label>
+          <textarea name="code" id="code" class="form-control" style="height: 200px">
+function suma(a, b) {
+  return a + b;
+}
+          </textarea>
+        </div>
+        <div class="mt-2">
+          <label for="range" class="form-label">Rango de búsqueda</label>
+          <input type="number" min="0" name="range" id="range" class="form-control" value="0">
+        </div>
+        <div class="input-group mt-2">
+          <button type="submit" class="btn btn-primary w-100">Consultar</button>
+        </div>
+      </form>
     </div>
-  </main>
+  </div>
 </body>
 </html>
