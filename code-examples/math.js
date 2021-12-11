@@ -13,3 +13,7 @@ function div(a, b) {
 function mod(a, b) {
     return a | b
 }
+
+function prod(a, b) {
+    return a * b
+}

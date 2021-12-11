@@ -11,7 +11,7 @@
 </head>
 <body>
   <div class="container">
-    <div class="pt-5">
+    <div class="pt-5 pb-5">
       <h1 class="title">Consulta de código por rango</h1>
       <p class="subtitle">
         A continuación introduzca una función JavaScript, un rango de búsqueda y ejecute su consulta.
@@ -20,20 +20,40 @@
       <form>
         <div>
           <label for="code" class="form-label">Código</label>
-          <textarea name="code" id="code" class="form-control" style="height: 200px">
-function suma(a, b) {
-  return a + b;
-}
-          </textarea>
+          <textarea name="code" id="code" class="form-control" style="height: 200px">{{ code }}</textarea>
         </div>
-        <div class="mt-2">
-          <label for="range" class="form-label">Rango de búsqueda</label>
-          <input type="number" min="0" name="range" id="range" class="form-control" value="0">
+        <div class="row mt-2">
+          <div class="col">
+            <label for="range" class="form-label">Rango de búsqueda</label>
+            <input type="number" min="0" name="range" id="range" class="form-control" value="{{ range }}">
+          </div>
+          <div class="col">
+            <label for="limit" class="form-label">Límite de resultados</label>
+            <input type="number" min="1" name="limit" id="limit" class="form-control" value="{{ limit }}">
+          </div>
         </div>
-        <div class="input-group mt-2">
-          <button type="submit" class="btn btn-primary w-100">Consultar</button>
+        <div class="btn-group mt-2 w-100" role="group">
+          <button type="reset" class="btn btn-danger" onclick="window.location = '/'">Reiniciar</button>
+          <button type="submit" class="btn btn-primary">Consultar</button>
         </div>
       </form>
+
+      @if(showResults)
+      <div class="mt-3">
+        <h3>Resultados de la consulta ({{ results.length }})</h3>
+
+        <div class="mt-2">
+          @each(result in results)
+          <div class="card mb-2">
+            <div class="card-body">
+              <h5 class="card-title">Distancia: {{ result.distance }}</h5>
+              <pre class="mb-0" style="color: #d63384"><code>{{ result.code }}</code></pre>
+            </div>
+          </div>
+          @end
+        </div>
+      </div>
+      @end
     </div>
   </div>
 </body>
