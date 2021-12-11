@@ -1,10 +1,13 @@
 import { ApplicationContract } from '@ioc:Adonis/Core/Application'
+import DistanceService from 'App/Distance/DistanceService'
 
 export default class AppProvider {
   constructor(protected app: ApplicationContract) {}
 
   public register() {
-    // Register your own bindings
+    this.app.container.singleton('GAD/Distance', () => {
+      return new DistanceService()
+    })
   }
 
   public async boot() {

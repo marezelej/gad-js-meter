@@ -1,5 +1,5 @@
 import {HttpContextContract} from '@ioc:Adonis/Core/HttpContext'
-import CodeRangeSearch from "App/Code/CodeRangeSearch";
+import CodeRangeSearch from 'App/Code/CodeRangeSearch'
 
 export default class RangeSearchController {
   async handle({view, request}: HttpContextContract) {
