@@ -11,6 +11,9 @@ export default class FunctionCode extends BaseModel {
   @column()
   public code: string
 
+  @column()
+  public nodeId: number
+
   static async import(functions: string[]): Promise<number> {
     const models = await this.fetchOrCreateMany(['code'], functions.map((code) => this.buildFromCode(code)))
     return models.filter((m) => m.$isLocal).length

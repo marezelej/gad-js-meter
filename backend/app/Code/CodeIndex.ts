@@ -2,7 +2,7 @@ import service from '@ioc:GAD/Distance'
 
 interface Node {
   distance: number
-  parent: Node | null
+  children: Node | null
 }
 
 export default class CodeIndex {
@@ -57,23 +57,30 @@ export default class CodeIndex {
       Aelement = pairs[i]
       Belement = pairs[i + 1]
       maxDiff = 0
-      for (let j = 0; j < pivots.length; j++) {
         const aDistnace = await service.distance(Aelement, pivots[j])
+      for (let j = 0; j < pivots.length; j++) {
         const bDistance = await service.distance(Belement, pivots[j])
         diff = Math.abs(aDistnace - bDistance)
-        if (diff > maxDiff) {
           maxDiff = diff
+        if (diff > maxDiff) {
         }
       }
       total += maxDiff
-      i += 2
     }
-    return total / (pairs.length / 2)
+      i += 2
   }
+    return total / (pairs.length / 2)
 
-  public async getNodes(pivots: string[], code: string): Promise<Node> {
-    // TODO
-    const distance = service.distance(code, pivots[0])
-    console.log(distance)
+  async getNodes(pivots: string[], code: string): Promise<Node> {
+    const root: Node = { distance: await service.distance(code, pivots.shift()!), children: null }
+    let parent: Node = root
+    for (const pivot of pivots) {
+      parent.children = {
+        distance: await service.distance(code, pivot),
+        children: null
+      }
+      parent = parent.children
+    }
+    return root
   }
 }
