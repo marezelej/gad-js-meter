@@ -3,7 +3,7 @@ import CodeImporter from 'App/Code/CodeImporter'
 import FunctionCode from "App/Models/FunctionCode";
 
 export default class ImportCode extends BaseCommand {
-  public static commandName = 'import:code'
+  public static commandName = 'code:import'
   public static description = 'Import code from the desired directory'
 
   public static settings = {

@@ -19,8 +19,12 @@ Para ejecutar el servidor de pruebas, desde la carpeta `backend`:
 A continuación se describen las funcionalidades de la app.
 
 ## Importar código a la base de datos
-Ejecutar el comando `node ace import:code` para escanear la carpeta `code-examples` y cargar la base de datos
+Ejecutar el comando `node ace code:import` para escanear la carpeta `code-examples` y cargar la base de datos
 con las funciones contenidas en los archivos de código fuente.
+
+## Indexación del código en la base de datos
+Ejecutar el comando `node ace code:index` para generar los pivotes y el índice respecto al código en la base de datos.
+Utilizar la opción `--only-index` para solo 
 
 ## Consultas por rango
 Acceder al frontend de la aplicación desde el navegador, la página toma como input una función

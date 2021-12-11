@@ -1,12 +1,12 @@
 {
   "commands": {
-    "import:code": {
+    "code:import": {
       "settings": {
         "loadApp": true,
         "stayAlive": false
       },
       "commandPath": "./commands/ImportCode",
-      "commandName": "import:code",
+      "commandName": "code:import",
       "description": "Import code from the desired directory",
       "args": [
         {
@@ -34,6 +34,18 @@
           "description": "Log functions list instead of insert into table"
         }
       ]
+    },
+    "code:index": {
+      "settings": {
+        "loadApp": false,
+        "stayAlive": false
+      },
+      "commandPath": "./commands/IndexCode",
+      "commandName": "code:index",
+      "description": "",
+      "args": [],
+      "aliases": [],
+      "flags": []
     },
     "dump:rcfile": {
       "settings": {},
