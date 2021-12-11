@@ -1,5 +1,32 @@
 {
   "commands": {
+    "import:code": {
+      "settings": {
+        "loadApp": true,
+        "stayAlive": false
+      },
+      "commandPath": "./commands/ImportCode",
+      "commandName": "import:code",
+      "description": "Import code from the desired directory",
+      "args": [
+        {
+          "type": "string",
+          "propertyName": "dir",
+          "name": "dir",
+          "required": false,
+          "description": "The scanned directory"
+        },
+        {
+          "type": "string",
+          "propertyName": "limit",
+          "name": "limit",
+          "required": false,
+          "description": "The limit of files to scan"
+        }
+      ],
+      "aliases": [],
+      "flags": []
+    },
     "dump:rcfile": {
       "settings": {},
       "commandPath": "@adonisjs/core/build/commands/DumpRc",

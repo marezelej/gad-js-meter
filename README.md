@@ -18,8 +18,8 @@ Para ejecutar el servidor de pruebas, desde la carpeta `backend`:
 # Uso de la aplicación
 A continuación se describen las funcionalidades de la app.
 
-## Seed de la DB
-Ejecutar el comando `node ace gad:seed` para escanear la carpeta `code-examples` y cargar la base de datos
+## Importar código a la base de datos
+Ejecutar el comando `node ace import:code` para escanear la carpeta `code-examples` y cargar la base de datos
 con las funciones contenidas en los archivos de código fuente.
 
 ## Consultas por rango
