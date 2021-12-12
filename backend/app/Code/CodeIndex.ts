@@ -1,6 +1,6 @@
 import service from '@ioc:GAD/Distance'
-import {difference, sampleSize} from "lodash";
-import {unique} from "@adonisjs/lucid/build/src/utils";
+import {difference, sampleSize} from 'lodash'
+import {unique} from '@adonisjs/lucid/build/src/utils'
 
 interface Node {
   distance: number
