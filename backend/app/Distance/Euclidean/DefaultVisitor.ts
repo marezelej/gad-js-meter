@@ -11,16 +11,15 @@ import {Node} from 'acorn'
 import {CallExpression, FunctionExpression} from 'App/Distance/Euclidean/Handler/ExpresionHandler'
 
 export default function buildVisitor(vector: CodeVector) {
-  const functionDeclaration = new FunctionDeclaration(vector)
   const visitor = (new NodeVisitor)
     .addHandler(new ForStatement(vector))
     .addHandler(new ForInStatement(vector))
     .addHandler(new WhileStatement(vector))
     .addHandler(new DoWhileStatement(vector))
     .addHandler(new VariableDeclaration(vector))
-    .addHandler(functionDeclaration)
+    .addHandler(new FunctionDeclaration(vector))
     .addHandler(new FunctionExpression(vector))
-    .addHandler(new CallExpression(vector, functionDeclaration))
+    .addHandler(new CallExpression(vector))
   // @ts-ignore
   return new Proxy({}, {
     get: function(_target, name: string){
