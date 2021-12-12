@@ -1,6 +1,7 @@
 import service from "@ioc:GAD/Distance";
-import { Node } from "acorn";
 import FunctionCode from "App/Models/FunctionCode";
+import Pivot from "App/Models/Pivot";
+import {default as NodeModel} from "App/Models/Node";
 
 interface SearchResult {
   code: string
@@ -12,12 +13,25 @@ export default class CodeRangeSearch {
     let results: SearchResult[] = []
     let padres: number[] = []
 	  let pivot_dist
-    const rootNode = await Node.getRoot()
+    const rootNode = await NodeModel.getRoot()
     padres.push(rootNode.id)
-    let pivots = await Pivots.getPivots()
-    for (let i = 0; pivots.length; i++ ) {
+    let pivots = await Pivot.getPivots()
+    let minDistance = 40000
+    let pivot
+    for (let i = 0; i < pivots.length; i++ ) {
+      let distance = await service.distance(_code, pivots[i])
+      if (distance < minDistance) {
+        minDistance = distance
+        pivot = i
+      }
+    }
+    padres = (await NodeModel.getChildren(minDistance - _range, minDistance + _range, padres)).map(e => e.id )
+    for (let i = 0; i < pivots.length; i++ ) {
       pivot_dist = await service.distance(_code, pivots[i])
-      padres = (await Node.getChildren(pivot_dist - _range, pivot_dist + _range, padres)).map(e => e.id )
+      padres = (await NodeModel.getChildren(pivot_dist - _range, pivot_dist + _range, padres)).map(e => e.id )
+      if (padres.length === 0) {
+        return []
+      }
     }
     let nodeParents = await FunctionCode.getByParents(padres)
     for (let j = 0; j < nodeParents.length; j++) {
