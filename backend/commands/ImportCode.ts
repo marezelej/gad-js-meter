@@ -1,6 +1,7 @@
 import {args, BaseCommand, flags} from '@adonisjs/core/build/standalone'
 import CodeImporter from 'App/Code/CodeImporter'
 import FunctionCode from "App/Models/FunctionCode";
+import execa from "execa";
 
 export default class ImportCode extends BaseCommand {
   public static commandName = 'code:import'
@@ -20,6 +21,9 @@ export default class ImportCode extends BaseCommand {
   @flags.boolean({alias: 'l', description: 'Log functions list instead of insert into table'})
   public log: boolean
 
+  @flags.boolean({alias: 'i', description: 'Index functions list after import'})
+  public index: boolean
+
   public async run() {
     const importer = new CodeImporter()
     const functions = await importer.handle(this.dir || '../code-examples', parseInt(this.limit || '5000'))
@@ -30,5 +34,15 @@ export default class ImportCode extends BaseCommand {
       const count = await FunctionCode.import(functions)
       this.logger.info(`${count} new functions were inserted.`)
     }
+    return await this.runIndex()
+  }
+
+  private async runIndex() {
+    if (this.index) {
+      return execa.node('ace', ['code:index'], {
+        stdio: 'inherit',
+      })
+    }
+    return 0
   }
 }

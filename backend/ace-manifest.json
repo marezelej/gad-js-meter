@@ -32,6 +32,13 @@
           "type": "boolean",
           "alias": "l",
           "description": "Log functions list instead of insert into table"
+        },
+        {
+          "name": "index",
+          "propertyName": "index",
+          "type": "boolean",
+          "alias": "i",
+          "description": "Index functions list after import"
         }
       ]
     },
