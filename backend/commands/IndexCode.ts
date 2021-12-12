@@ -5,6 +5,7 @@ import {ApplicationContract} from '@ioc:Adonis/Core/Application'
 import {KernelContract} from '@adonisjs/ace/build/src/Contracts'
 import FunctionCode from 'App/Models/FunctionCode'
 import Node from 'App/Models/Node'
+import Pivot from 'App/Models/Pivot'
 
 export default class IndexCode extends BaseCommand {
   public static commandName = 'code:index'
@@ -52,7 +53,7 @@ export default class IndexCode extends BaseCommand {
       this.logger.warning('Reset the pivots list')
       await Database.from('pivots').delete()
     } else {
-      pivots = await this.dbPivots()
+      pivots = await Pivot.getPivots()
     }
     if (pivots.length < 1) {
       pivots = await this.buildPivots(codeSpace)
@@ -60,14 +61,6 @@ export default class IndexCode extends BaseCommand {
       this.logger.info(`${pivots.length} pivots were created`)
     }
     return pivots
-  }
-
-  private async dbPivots(): Promise<string[]> {
-    return (await Database
-      .from('pivots')
-      .orderBy('id', 'asc')
-      .select('code'))
-      .map((c) => c.code)
   }
 
   private buildPivots(codeSpace: string[]) {
