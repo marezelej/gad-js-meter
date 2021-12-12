@@ -36,7 +36,11 @@ a la consulta.
 La función de distancia utilizada es la distancia euclidiana entre vectores de parámetros obtenidos al analizar el código.
 A continuación se describen los parámetros utilizados (definidos en la clase `CodeVector`):
 - **loopCount**: Cantidad de bucles (while, for, doWhile, forIn y llamadas recursivas).
-- **variableCount**: Cantidad de declaraciones de variables.
 - **paramsCount**: Cantidad de parámetros en la función.
-- **recursiveCallCount**: Cantidad de llamadas recursivas.
 - **maxTreeDeep**: Profundidad máxima del árbol sintáctico.
+- **ifCount**: Cantidad de sentencias condicionales (if, else y consideración de operadores lógicos).
+
+# Repositorio de código
+El repositorio de código comprendido en `code-examples` se generó a partir de código
+disponible de manera pública en internet. Algunas de las fuentes son:
+- https://github.com/trekhleb/javascript-algorithms
