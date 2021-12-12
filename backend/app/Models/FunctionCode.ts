@@ -23,4 +23,10 @@ export default class FunctionCode extends BaseModel {
   private static buildFromCode(code: string) {
     return {code};
   }
+
+  public static async getByParents(parentKeys: number[]):Promise<FunctionCode[]> {
+    return FunctionCode.query()
+    .whereIn('parent_node_id', parentKeys)
+  }
+
 }
