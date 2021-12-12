@@ -5,6 +5,7 @@ import buildVisitor from 'App/Distance/Euclidean/DefaultVisitor'
 export class CodeVector {
   loopCount = 0
   variableCount = 0
+  paramsCount = 0
 }
 
 export default class EuclideanDistance {
@@ -14,8 +15,8 @@ export default class EuclideanDistance {
     return Math.hypot(...aVector.map((aValue, key) => (aValue - bVector[key])))
   }
 
-  private toVector(code: string): CodeVector {
-    const tree = Parser.parse(code, {ecmaVersion: 6})
+  public toVector(code: string): CodeVector {
+    const tree = Parser.parse(code, {ecmaVersion: 'latest'})
     const vector = new CodeVector()
     simple(tree, this.getVisitors(vector))
     return vector

@@ -6,3 +6,14 @@ export class VariableDeclaration extends BaseHandler  {
     this.vector.variableCount++
   }
 }
+
+export class FunctionDeclaration extends BaseHandler  {
+  private isHeader = true
+  handle(node: Node) {
+    if (this.isHeader) {
+      // @ts-ignore
+      this.vector.paramsCount = node.params.length
+      this.isHeader = false
+    }
+  }
+}

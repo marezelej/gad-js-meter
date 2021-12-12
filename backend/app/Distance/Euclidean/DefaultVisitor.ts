@@ -6,7 +6,7 @@ import {
   ForInStatement,
   WhileStatement
 } from 'App/Distance/Euclidean/Handler/LoopHandler'
-import {VariableDeclaration} from 'App/Distance/Euclidean/Handler/DeclarationHandler'
+import {FunctionDeclaration, VariableDeclaration} from 'App/Distance/Euclidean/Handler/DeclarationHandler'
 import {Node} from 'acorn'
 
 export default function buildVisitor(vector: CodeVector) {
@@ -16,6 +16,7 @@ export default function buildVisitor(vector: CodeVector) {
     .addHandler(new WhileStatement(vector))
     .addHandler(new DoWhileStatement(vector))
     .addHandler(new VariableDeclaration(vector))
+    .addHandler(new FunctionDeclaration(vector))
   // @ts-ignore
   return new Proxy({}, {
     get: function(_target, name: string){
