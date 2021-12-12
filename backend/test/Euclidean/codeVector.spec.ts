@@ -1,17 +1,16 @@
 import test from 'japa'
-import EuclideanDistance from 'App/Distance/Euclidean/EuclideanDistance'
+import MetricVectorsDistance from 'App/Distance/Euclidean/MetricVectorsDistance'
 
 test.group('Code Vector parce', () => {
   test('Test function without loops and variables', async (assert) => {
     const code = `function sum(a, b) {return a + b}`
 
-    const vector = (new EuclideanDistance()).toVector(code)
+    const vector = (new MetricVectorsDistance()).toVector(code)
 
     assert.equal(vector.loopCount, 0)
-    assert.equal(vector.variableCount, 0)
     assert.equal(vector.paramsCount, 2)
-    assert.equal(vector.recursiveCallCount, 0)
     assert.equal(vector.maxTreeDeep, 6)
+    assert.equal(vector.ifCount, 0)
   })
   test('Test function loops are count', async (assert) => {
     const code = `function sum3Times(list) {
@@ -30,13 +29,12 @@ test.group('Code Vector parce', () => {
       return r
     }`
 
-    const vector = (new EuclideanDistance()).toVector(code)
+    const vector = (new MetricVectorsDistance()).toVector(code)
 
     assert.equal(vector.loopCount, 3)
-    assert.equal(vector.variableCount, 4)
     assert.equal(vector.paramsCount, 1)
-    assert.equal(vector.recursiveCallCount, 0)
     assert.equal(vector.maxTreeDeep, 9)
+    assert.equal(vector.ifCount, 0)
   })
   test('Test function recursion are count as loops', async (assert) => {
     const code = `function factorialRecursive(num) {
@@ -49,12 +47,11 @@ test.group('Code Vector parce', () => {
       }
     }`
 
-    const vector = (new EuclideanDistance()).toVector(code)
+    const vector = (new MetricVectorsDistance()).toVector(code)
 
     assert.equal(vector.loopCount, 1)
-    assert.equal(vector.variableCount, 0)
     assert.equal(vector.paramsCount, 1)
-    assert.equal(vector.recursiveCallCount, 1)
     assert.equal(vector.maxTreeDeep, 11)
+    assert.equal(vector.ifCount, 2)
   })
 })

@@ -1,22 +1,20 @@
 import {Parser} from 'acorn'
 import {ancestor, AncestorVisitors} from 'acorn-walk'
 import buildVisitor from 'App/Distance/Euclidean/DefaultVisitor'
+import {sum} from "lodash";
 
 export class CodeVector {
   loopCount = 0
-  variableCount = 0
   paramsCount = 0
-  recursiveCallCount = 0
   maxTreeDeep = 0
+  ifCount = 0
 }
 
-export default class EuclideanDistance {
+export default class MetricVectorsDistance {
   async distance(a: string, b: string): Promise<number> {
     const aVector = Object.values(this.toVector(a))
     const bVector = Object.values(this.toVector(b))
-    const distance = Math.hypot(...aVector.map((aValue, key) => (aValue - bVector[key])))
-    if (distance === 0) return distance
-    return Math.floor(distance * 10 - 10)
+    return sum(aVector.map((aValue, key) => Math.abs(aValue - bVector[key])))
   }
 
   public toVector(code: string): CodeVector {

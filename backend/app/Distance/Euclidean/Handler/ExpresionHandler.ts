@@ -18,7 +18,6 @@ export class CallExpression extends BaseHandler  {
     // @ts-ignore
     if (functionName === node.callee.name) {
       this.vector.loopCount++
-      this.vector.recursiveCallCount++
     }
   }
 }
