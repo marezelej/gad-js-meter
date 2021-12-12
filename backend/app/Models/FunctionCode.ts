@@ -15,11 +15,15 @@ export default class FunctionCode extends BaseModel {
   public nodeId: number
 
   static async import(functions: string[]): Promise<number> {
-    const models = await this.fetchOrCreateMany(['code'], functions.map((code) => this.buildFromCode(code)))
-    return models.filter((m) => m.$isLocal).length
+    try{
+      const models = await this.fetchOrCreateMany(['code'], functions.map((code) => this.buildFromCode(code)))
+      return models.filter((m) => m.$isLocal).length
+    } catch (e) {
+      console.log(e)
+    }
+    return 0
   }
 
-  // TODO Calculate nodeId
   private static buildFromCode(code: string) {
     return {code};
   }

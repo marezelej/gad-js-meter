@@ -2,6 +2,7 @@ import {args, BaseCommand, flags} from '@adonisjs/core/build/standalone'
 import CodeImporter from 'App/Code/CodeImporter'
 import FunctionCode from "App/Models/FunctionCode";
 import execa from "execa";
+import {unique} from "@adonisjs/lucid/build/src/utils";
 
 export default class ImportCode extends BaseCommand {
   public static commandName = 'code:import'
@@ -31,7 +32,7 @@ export default class ImportCode extends BaseCommand {
     if (this.log) {
       console.log(functions)
     } else {
-      const count = await FunctionCode.import(functions)
+      const count = await FunctionCode.import(unique(functions))
       this.logger.info(`${count} new functions were inserted.`)
     }
     return await this.runIndex()
