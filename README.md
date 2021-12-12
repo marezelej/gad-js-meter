@@ -21,10 +21,11 @@ A continuación se describen las funcionalidades de la app.
 ## Importar código a la base de datos
 Ejecutar el comando `node ace code:import` para escanear la carpeta `code-examples` y cargar la base de datos
 con las funciones contenidas en los archivos de código fuente.
+Utilizar la opción `-i` para indexar de manera automática los nuevos resultados.
 
 ## Indexación del código en la base de datos
-Ejecutar el comando `node ace code:index` para generar los pivotes y el índice respecto al código en la base de datos.
-Utilizar la opción `--only-index` para solo 
+Ejecutar el comando `node ace code:index` para generar los pivotes (en caso de no existir) y el índice respecto al código en la base de datos.
+Utilizar la opción `-r` para reiniciar el índice, regenerando la tabla de pivotes y nodos.
 
 ## Consultas por rango
 Acceder al frontend de la aplicación desde el navegador, la página toma como input una función
