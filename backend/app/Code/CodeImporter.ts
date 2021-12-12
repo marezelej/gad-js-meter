@@ -32,9 +32,6 @@ export default class CodeImporter {
     walk.simple(tree, {
       FunctionDeclaration(node) {
         functions.push('function ' + code.substring(node.id.start, node.end))
-      },
-      ArrowFunctionExpression(node) {
-        functions.push('const arrow = ' + code.substring(node.start, node.end))
       }
     })
     return functions
