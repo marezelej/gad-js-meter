@@ -30,3 +30,12 @@ Utilizar la opción `--only-index` para solo
 Acceder al frontend de la aplicación desde el navegador, la página toma como input una función
 en Javascript y un radio de consulta. La consulta devuelve las 10 funciones de la base de datos más cercanas
 a la consulta.
+
+# Función de distancia
+La función de distancia utilizada es la distancia euclidiana entre vectores de parámetros obtenidos al analizar el código.
+A continuación se describen los parámetros utilizados (definidos en la clase `CodeVector`):
+- **loopCount**: Cantidad de bucles (while, for, doWhile, forIn y llamadas recursivas).
+- **variableCount**: Cantidad de declaraciones de variables.
+- **paramsCount**: Cantidad de parámetros en la función.
+- **recursiveCallCount**: Cantidad de llamadas recursivas.
+- **maxTreeDeep**: Profundidad máxima del árbol sintáctico.
