@@ -16,7 +16,7 @@ export default class IndexCode extends BaseCommand {
   }
   private codeIndex: CodeIndex
 
-  @flags.boolean({ alias: 'r', description: 'Reset the pivots table' })
+  @flags.boolean({alias: 'r', description: 'Reset the pivots table'})
   public reset: boolean
 
   constructor(application: ApplicationContract, kernel: KernelContract) {
@@ -25,25 +25,31 @@ export default class IndexCode extends BaseCommand {
   }
 
   public async run() {
-    const functionCodes = await FunctionCode.all()
+    if (this.reset) {
+      this.logger.warning('Reset the nodes list')
+      await FunctionCode.query().update({node_id: null})
+      await Node.query().delete()
+    }
+    const functionCodes = await FunctionCode.query().whereNull('node_id')
     this.logger.info(`Indexing ${functionCodes.length} functions...`)
     const pivots = await this.getPivots(functionCodes.map((f) => f.code))
-    await Promise.all(functionCodes.map(async (f: FunctionCode) => {
-      let node = await this.codeIndex.getNodes(pivots, f.code)
+    for (const f of functionCodes) {
+      let node: any = await this.codeIndex.getNodes(pivots, f.code)
       let dbParentNode = await Node.firstOrCreate({parentNodeId: null, distance: 0})
-      do {
+      while (node.children !== null) {
         dbParentNode = await Node.firstOrCreate({parentNodeId: dbParentNode.id, distance: node.distance})
-      } while (node.children !== null)
+        node = node.children
+      }
       f.nodeId = dbParentNode.id
       await f.save()
-    }))
+    }
     this.logger.info(`The indexes were created.`)
   }
 
   private async getPivots(codeSpace: string[]): Promise<string[]> {
     let pivots: string[] = []
     if (this.reset) {
-      this.logger.warning('Reset the pivots list.')
+      this.logger.warning('Reset the pivots list')
       await Database.from('pivots').delete()
     } else {
       pivots = await this.dbPivots()
@@ -51,6 +57,7 @@ export default class IndexCode extends BaseCommand {
     if (pivots.length < 1) {
       pivots = await this.buildPivots(codeSpace)
       await Database.table('pivots').insert(pivots.map((code) => ({code})))
+      this.logger.info(`${pivots.length} pivots were created`)
     }
     return pivots
   }

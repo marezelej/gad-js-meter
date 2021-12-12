@@ -1,4 +1,6 @@
 import service from '@ioc:GAD/Distance'
+import {difference, sampleSize} from "lodash";
+import {unique} from "@adonisjs/lucid/build/src/utils";
 
 interface Node {
   distance: number
@@ -11,68 +13,49 @@ export default class CodeIndex {
     nPivots: number,
     kSample: number,
     aPairs: number
-  ): Promise<any> {
-    let pivots
-    let sample
-    let pairs
-    let candidate = ''
-    let average
-    let maxAverage = 0
-    let winner
+  ): Promise<string[]> {
+    let pivots: string[] = []
     while (pivots.length < nPivots) {
-      let auxSample = codeSpace.filter((e) => !pivots.includes(e))
-      if (auxSample) {
-        for (let i = 0; i < kSample; i++) {
-          sample.push(auxSample[Math.floor(Math.random() * auxSample.length)])
-        }
-      }
-      let auxPairs = codeSpace.filter((e) => !pivots.includes(e) && !sample.includes(e))
-      if (auxSample) {
-        for (let i = 0; i < aPairs * 2; i++) {
-          pairs.push(auxPairs[Math.floor(Math.random() * auxPairs.length)])
-        }
-      }
-      winner = sample[0]
-      sample.forEach((e) => {
-        average = this.candidateMu(pivots, candidate, pairs)
+      let sample = sampleSize(difference(codeSpace, pivots), kSample)
+      let pairs = sampleSize(difference(codeSpace, [...pivots, ...sample]), aPairs * 2)
+      let winner = sample[0]
+      let maxAverage = 0
+      for (let candidate of sample) {
+        let average = await this.candidateMu(pivots, candidate, pairs)
         if (average > maxAverage) {
           maxAverage = average
           winner = candidate
         }
-      })
-      return pivots
+      }
+      pivots.push(winner)
     }
+    return unique(pivots)
   }
 
-  public async candidateMu(pivots: string[], candidate: string, pairs: string[]): Promise<Number> {
-    let pivot
+  public async candidateMu(pivots: string[], candidate: string, pairs: string[]): Promise<number> {
     let i = 0
-    let Aelement
-    let Belement
-    let maxDiff
-    let diff
     let total = 0
-    pivot = pivots.concat(candidate)
+    pivots.push(candidate)
     while (i < pairs.length) {
-      Aelement = pairs[i]
-      Belement = pairs[i + 1]
-      maxDiff = 0
-        const aDistnace = await service.distance(Aelement, pivots[j])
+      let aElement = pairs[i]
+      let bElement = pairs[i + 1]
+      let maxDiff = 0
       for (let j = 0; j < pivots.length; j++) {
-        const bDistance = await service.distance(Belement, pivots[j])
-        diff = Math.abs(aDistnace - bDistance)
-          maxDiff = diff
+        const aDistance = await service.distance(aElement, pivots[j])
+        const bDistance = await service.distance(bElement, pivots[j])
+        let diff = Math.abs(aDistance - bDistance)
         if (diff > maxDiff) {
+          maxDiff = diff
         }
       }
       total += maxDiff
-    }
       i += 2
-  }
+    }
     return total / (pairs.length / 2)
+  }
 
   async getNodes(pivots: string[], code: string): Promise<Node> {
-    const root: Node = { distance: await service.distance(code, pivots.shift()!), children: null }
+    const root: Node = {distance: await service.distance(code, pivots.shift()!), children: null}
     let parent: Node = root
     for (const pivot of pivots) {
       parent.children = {
