@@ -10,8 +10,8 @@ export default class NodeVisitor {
     return this
   }
 
-  public handle(type: string, node: Node) {
+  public handle(type: string, params: { node: Node, ancestors: Node[] }) {
     (this.handlers[type] || [])
-      .forEach((h) => h.handle(node))
+      .forEach((h) => h.handle(params))
   }
 }
