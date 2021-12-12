@@ -1,5 +1,5 @@
-const {Parser} = require("acorn")
-const walk = require("acorn-walk")
+const {Parser} = require('acorn')
+const walk = require('acorn-walk')
 const fs = require('fs')
 const path = require('path')
 const fsPromise = require('fs').promises
