@@ -1,11 +1,8 @@
-import longestCommonSubsequence from '../longest-common-subsequence/longestCommonSubsequence';
-
 /**
  * @param {string[]} set1
  * @param {string[]} set2
  * @return {string[]}
  */
-
 function shortestCommonSupersequence(set1, set2) {
   // Let's first find the longest common subsequence of two sets.
   const lcs = longestCommonSubsequence(set1, set2);
