@@ -1,5 +1,5 @@
 import service from '@ioc:GAD/Distance'
-import {difference, sampleSize} from 'lodash'
+import {difference, first, sampleSize} from 'lodash'
 import {unique} from '@adonisjs/lucid/build/src/utils'
 
 interface Node {
@@ -35,14 +35,14 @@ export default class CodeIndex {
   public async candidateMu(pivots: string[], candidate: string, pairs: string[]): Promise<number> {
     let i = 0
     let total = 0
-    pivots.push(candidate)
+    const candidateGroup = pivots.concat(candidate)
     while (i < pairs.length) {
       let aElement = pairs[i]
       let bElement = pairs[i + 1]
       let maxDiff = 0
-      for (let j = 0; j < pivots.length; j++) {
-        const aDistance = await service.distance(aElement, pivots[j])
-        const bDistance = await service.distance(bElement, pivots[j])
+      for (let j = 0; j < candidateGroup.length; j++) {
+        const aDistance = await service.distance(aElement, candidateGroup[j])
+        const bDistance = await service.distance(bElement, candidateGroup[j])
         let diff = Math.abs(aDistance - bDistance)
         if (diff > maxDiff) {
           maxDiff = diff
@@ -55,9 +55,9 @@ export default class CodeIndex {
   }
 
   async getNodes(pivots: string[], code: string): Promise<Node> {
-    const root: Node = {distance: await service.distance(code, pivots.shift()!), children: null}
+    const root: Node = {distance: await service.distance(code, first(pivots)!), children: null}
     let parent: Node = root
-    for (const pivot of pivots) {
+    for (const pivot of pivots.slice(1)) {
       parent.children = {
         distance: await service.distance(code, pivot),
         children: null

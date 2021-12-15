@@ -37,10 +37,10 @@ export default class IndexCode extends BaseCommand {
     for (const f of functionCodes) {
       let node: any = await this.codeIndex.getNodes(pivots, f.code)
       let dbParentNode = await Node.firstOrCreate({parentNodeId: null, distance: 0})
-      while (node.children !== null) {
+      do {
         dbParentNode = await Node.firstOrCreate({parentNodeId: dbParentNode.id, distance: node.distance})
         node = node.children
-      }
+      } while (node !== null)
       f.nodeId = dbParentNode.id
       await f.save()
     }
