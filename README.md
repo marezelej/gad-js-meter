@@ -45,3 +45,4 @@ El repositorio de código comprendido en `code-examples` se generó a partir de 
 disponible de manera pública en internet. Algunas de las fuentes son:
 - https://github.com/trekhleb/javascript-algorithms
 - https://github.com/TheAlgorithms/Javascript
+- https://github.com/moment/moment/tree/develop/src/lib
