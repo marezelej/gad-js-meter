@@ -44,3 +44,4 @@ A continuación se describen los parámetros utilizados (definidos en la clase `
 El repositorio de código comprendido en `code-examples` se generó a partir de código
 disponible de manera pública en internet. Algunas de las fuentes son:
 - https://github.com/trekhleb/javascript-algorithms
+- https://github.com/TheAlgorithms/Javascript
