@@ -76,21 +76,4 @@ function randomizeOutputFromDataset (datasetSource, output) {
   return newOutput
 }
 
-// Example
-
-/**
- * Generates a random range of data, with values between 0 and 2^31 - 1
- * @param {number} length The number of data items to generate
- * @returns {Iterable<number>} Random iterable data
-*/
-function * generateRandomData (length) {
-  const maxValue = Math.pow(2, 31) - 1
-  for (let i = 0; i < length; i++) {
-    yield Math.floor(Math.random() * maxValue)
-  }
-}
-
-// const source = generateRandomData(1000)
-// const result = shuf(source, 10)
-
 

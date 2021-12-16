@@ -1,7 +1,7 @@
 import {Parser} from 'acorn'
 import {ancestor, AncestorVisitors} from 'acorn-walk'
 import buildVisitor from 'App/Distance/Euclidean/DefaultVisitor'
-import {sum} from "lodash";
+import {sum} from 'lodash'
 
 export class CodeVector {
   loopCount = 0
@@ -18,9 +18,15 @@ export default class MetricVectorsDistance {
   }
 
   public toVector(code: string): CodeVector {
-    const tree = Parser.parse(code, {ecmaVersion: 'latest'})
     const vector = new CodeVector()
-    ancestor(tree, this.getVisitors(vector))
+    try{
+      const tree = Parser.parse(code, {ecmaVersion: 'latest'})
+      ancestor(tree, this.getVisitors(vector))
+    } catch (e) {
+      console.log('Exception parsing code...')
+      console.log(e)
+      console.log(code)
+    }
     return vector
   }
 
