@@ -17,3 +17,5 @@ export class IfStatement extends BaseHandler {
     }
   }
 }
+
+// TODO Handle case -> switch
