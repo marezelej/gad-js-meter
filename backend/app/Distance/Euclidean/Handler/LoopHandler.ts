@@ -1,25 +1,33 @@
 import {BaseHandler} from 'App/Distance/Euclidean/Handler/NodeHandler'
 
-export class ForStatement extends BaseHandler  {
-  handle({ node: _node }) {
+export class LoopStatement extends BaseHandler  {
+  handle({ node: _node, ancestors }) {
     this.vector.loopCount++
+    const loopAncestors = ancestors.filter(ancestor => 
+      ancestor.type === 'ForStatement' ||  
+      ancestor.type === 'ForInStatement' ||
+      ancestor.type === 'WhileStatement' || 
+      ancestor.type === 'DoWhileStatement').length - 1
+    if (loopAncestors === 0) {
+      this.vector.simpleLoopCount++;
+    }
+    else if (loopAncestors === 1) {
+      this.vector.doubleLoopCount++;
+    }
+    else {
+      this.vector.multipleLoopCount++;
+    }
   }
 }
 
-export class ForInStatement extends BaseHandler  {
-  handle({ node: _node }) {
-    this.vector.loopCount++
-  }
+export class ForStatement extends LoopStatement  {
 }
 
-export class WhileStatement extends BaseHandler  {
-  handle({ node: _node }) {
-    this.vector.loopCount++
-  }
+export class ForInStatement extends LoopStatement  {
 }
 
-export class DoWhileStatement extends BaseHandler  {
-  handle({ node: _node }) {
-    this.vector.loopCount++
-  }
+export class WhileStatement extends LoopStatement  {
+}
+
+export class DoWhileStatement extends LoopStatement  {
 }

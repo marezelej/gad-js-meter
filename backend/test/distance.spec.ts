@@ -60,6 +60,6 @@ test.group('Distance function', () => {
 
     const distance = await service.distance(aCode, bCode)
 
-    assert.equal(4, distance)
+    assert.equal(6, distance)
   })
 })
