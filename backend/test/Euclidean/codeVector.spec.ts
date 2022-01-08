@@ -63,4 +63,40 @@ test.group('Code Vector parce', () => {
 
     assert.equal(vector.hasArrays, 1)
   })
+  test('Test function sum operator count', async (assert) => {
+    const code = `function sumop() {
+      return a + b 
+    }`
+
+    const vector = (new MetricVectorsDistance()).toVector(code)
+
+    assert.equal(vector.sumOpCount, 1)
+  })
+  test('Test function diff operator count', async (assert) => {
+    const code = `function diffop() {
+      return a - b - c
+    }`
+
+    const vector = (new MetricVectorsDistance()).toVector(code)
+
+    assert.equal(vector.diffOpCount, 2)
+  })
+  test('Test function div operator count', async (assert) => {
+    const code = `function divop() {
+      return a / c
+    }`
+
+    const vector = (new MetricVectorsDistance()).toVector(code)
+
+    assert.equal(vector.divOpCount, 1)
+  })
+  test('Test function prod operator count', async (assert) => {
+    const code = `function prodop() {
+      return a * c
+    }`
+
+    const vector = (new MetricVectorsDistance()).toVector(code)
+
+    assert.equal(vector.prodOpCount, 1)
+  })
 })

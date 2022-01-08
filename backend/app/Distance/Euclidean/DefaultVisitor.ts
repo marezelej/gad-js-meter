@@ -8,7 +8,7 @@ import {
 } from 'App/Distance/Euclidean/Handler/LoopHandler'
 import {FunctionDeclaration} from 'App/Distance/Euclidean/Handler/DeclarationHandler'
 import {Node} from 'acorn'
-import {ArrayExpression, CallExpression} from 'App/Distance/Euclidean/Handler/ExpresionHandler'
+import {BinaryExpression , ArrayExpression, CallExpression} from 'App/Distance/Euclidean/Handler/ExpresionHandler'
 import {IfStatement} from 'App/Distance/Euclidean/Handler/ChoiceHandler'
 
 export default function buildVisitor(vector: CodeVector) {
@@ -21,6 +21,7 @@ export default function buildVisitor(vector: CodeVector) {
     .addHandler(new CallExpression(vector))
     .addHandler(new IfStatement(vector))
     .addHandler(new ArrayExpression(vector))
+    .addHandler(new BinaryExpression (vector))
   // @ts-ignore
   return new Proxy({}, {
     get: function(_target, name: string){

@@ -21,3 +21,20 @@ export class ArrayExpression extends BaseHandler {
     this.vector.hasArrays = 1;
   }
 }
+
+export class BinaryExpression extends BaseHandler {
+  handle({ node }) {
+    if (node.operator === "+") {
+      this.vector.sumOpCount++;
+    } 
+    else if (node.operator === "-") {
+      this.vector.diffOpCount++;
+    }
+    else if (node.operator === "/") {
+      this.vector.divOpCount++;
+    }
+    else if (node.operator === "*") {
+      this.vector.prodOpCount++;
+    }
+  }
+}
