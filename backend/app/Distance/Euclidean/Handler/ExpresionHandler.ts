@@ -15,3 +15,9 @@ export class CallExpression extends BaseHandler  {
     }
   }
 }
+
+export class ArrayExpression extends BaseHandler {
+  handle() {
+    this.vector.hasArrays = 1;
+  }
+}

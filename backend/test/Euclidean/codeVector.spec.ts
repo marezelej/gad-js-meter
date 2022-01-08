@@ -54,4 +54,13 @@ test.group('Code Vector parce', () => {
     assert.equal(vector.maxTreeDeep, 11)
     assert.equal(vector.ifCount, 2)
   })
+  test('Test function has arrays', async (assert) => {
+    const code = `function withArray() {
+      return [1, 2, 3]
+    }`
+
+    const vector = (new MetricVectorsDistance()).toVector(code)
+
+    assert.equal(vector.hasArrays, 1)
+  })
 })
