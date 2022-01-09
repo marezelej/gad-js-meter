@@ -7,7 +7,7 @@ test.group('Distance function', () => {
 
     const distance = await service.distance(code, code)
 
-    assert.equal(distance, 0)
+    assert.equal(0, distance)
   })
   test('Assert that for similar code distance is 0', async (assert) => {
     const aCode = `function sum(a, b) {return a + b}`
@@ -15,7 +15,7 @@ test.group('Distance function', () => {
 
     const distance = await service.distance(aCode, bCode)
 
-    assert.equal(distance, 0)
+    assert.equal(2, distance)
   })
   test('Assert that for equal cycles distance is 0', async (assert) => {
     const aCode = `function sum(list) {
@@ -60,6 +60,6 @@ test.group('Distance function', () => {
 
     const distance = await service.distance(aCode, bCode)
 
-    assert.equal(distance, 3)
+    assert.equal(6, distance)
   })
 })
