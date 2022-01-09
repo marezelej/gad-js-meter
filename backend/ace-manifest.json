@@ -62,6 +62,25 @@
         }
       ]
     },
+    "code:measure": {
+      "settings": {
+        "loadApp": true,
+        "stayAlive": false
+      },
+      "commandPath": "./commands/MeasureCode",
+      "commandName": "code:measure",
+      "description": "Measure code in code-samples folder to get output metrics.",
+      "args": [],
+      "aliases": [],
+      "flags": [
+        {
+          "name": "distance",
+          "propertyName": "distance",
+          "type": "number",
+          "alias": "d"
+        }
+      ]
+    },
     "dump:rcfile": {
       "settings": {},
       "commandPath": "@adonisjs/core/build/commands/DumpRc",
