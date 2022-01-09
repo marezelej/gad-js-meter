@@ -19,4 +19,8 @@ function tail(array) {
   return result
 }
 
+  
+function tail2(vector) {
+  return vector?.slice((vector.length-1)*-1)
+}
 
