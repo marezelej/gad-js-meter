@@ -47,12 +47,6 @@ function anagram2(s1, s2){
   return match === s1.length;
 }
 
-}
-
-function anagrams(stringA, stringB) {
-  return stringA.replace(/[^\w]/g).toLowerCase().split('').sort().join() === stringB.replace(/[^\w]/g).toLowerCase().split('').sort().join()
-}
-
 
 
 
