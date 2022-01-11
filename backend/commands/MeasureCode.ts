@@ -25,21 +25,22 @@ export default class MeasureCode extends BaseCommand {
     for (let i = 0; i < functions.length; i += 2) {
       await this.loadMeasure(functions[i], functions[i + 1])
     }
+    const totalCount = functions.length / 2
     this.logger.info(`Measure results:`)
-    this.logger.info(`Zero distance assert count: ${this.metric.zeroDistanceAssertCount}`)
-    this.logger.info(`First ${this.getSearchLimit()} assert count: ${this.metric.firstAssertCount}`)
+    this.logger.info(`Total count: ${totalCount}`)
+    this.logger.info(`First assert count: ${this.metric.firstAssertCount} (${(this.metric.firstAssertCount * 100 / totalCount).toFixed(2)}%)`)
+    this.logger.info(`Between ${this.getSearchLimit()} results assert count: ${this.metric.notBadCount} (${(this.metric.notBadCount * 100 / totalCount).toFixed(2)}%)`)
   }
 
-  private async loadMeasure(sample: string, target: string) {
-    let results = await this.searchService.search(sample, this.getSearchDistance(), this.getSearchLimit())
-    results = results.filter((result) => result.code === target)
-    if (results.length === 0) {
+  private async loadMeasure(dbCode: string, modifiedCode: string) {
+    const results = await this.searchService.search(modifiedCode, this.getSearchDistance(), this.getSearchLimit())
+    const found = results.filter((result) => result.code === dbCode).length > 0
+    if (!found) {
       return;
     }
-    const result = results[0]
-    this.measureFirstAssert()
-    if (result.distance === 0) {
-      this.measureZeroDistanceAssert()
+    this.measureNotBad()
+    if (results[0].code === dbCode) {
+      this.measureFirstAssert()
     }
   }
 
@@ -51,16 +52,16 @@ export default class MeasureCode extends BaseCommand {
     return this.limit || 5
   }
 
-  private measureFirstAssert() {
-    this.metric.firstAssertCount++
+  private measureNotBad() {
+    this.metric.notBadCount++
   }
 
-  private measureZeroDistanceAssert() {
-    this.metric.zeroDistanceAssertCount++
+  private measureFirstAssert() {
+    this.metric.firstAssertCount++
   }
 }
 
 class Metric {
-  zeroDistanceAssertCount: number = 0 // Estaba con distancia 0
-  firstAssertCount: number = 0 // Estaba entre los primeros n
+  firstAssertCount: number = 0 // Era el primer resultado
+  notBadCount: number = 0 // Estaba entre los primeros n
 }
