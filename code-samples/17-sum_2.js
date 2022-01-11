@@ -6,6 +6,8 @@ function sumWithFor(list) {
     return r
 }
 
-function sumWithReduce(list) {
-    return list.reduce((c, e) => c + e, 0)
+function sumWithFor2(list) {
+    let sum = 0
+    list.forEach((value) => sum += value)
+    return sum
 }

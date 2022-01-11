@@ -12,7 +12,7 @@ function bubbleSortWithForLoop(inputArr) {
     return inputArr;
 }
 
-const bubbleSort = (array)=>{
+function bubbleSortWithForLoop2(inputArr) {
     let sorted = false;
     let counter =0;
     while(!sorted){
@@ -27,5 +27,4 @@ const bubbleSort = (array)=>{
       counter++;
     }
     return array;
-  
-  }
+}
