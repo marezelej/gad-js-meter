@@ -8,10 +8,12 @@ function sumWithWile(list) {
     return r
 }
 
-function sumWithFor(list) {
-    let r = 0
-    for (let i = 0; i < list.length; i++) {
-        r += list[i]
+function sumWithWile2(list) {
+    let sum = 0
+    let index = 0
+    while (index < list.length) {
+        sum += list[index]
+        index++
     }
-    return r
+    return sum
 }

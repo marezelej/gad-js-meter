@@ -3,7 +3,7 @@ function getUserAddress1() {
         data: 'data',
         id: 1
     }
-    const locations = await services.getUserLocation(params);
+    const locations = services.getUserLocation(params);
     if (locations.length > 0) {
         for (let i = 0; i < locations.length; i++) {
             if (locations[i].lat < 320000 && locations[i].long < 57000) {
@@ -14,6 +14,6 @@ function getUserAddress1() {
 }
 
 function getUserAddress2() {
-    const locations = await services.getUserLocation({data: 'data', id: 1 }).length
+    const locations = services.getUserLocation({data: 'data', id: 1 }).length
     return locations.length > 0 ? locations.find(e => e.lat < 320000 && e.long< 57000) : null
 }

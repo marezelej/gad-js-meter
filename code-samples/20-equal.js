@@ -3,7 +3,11 @@ function eq(value, other) {
 }
 
 function eq2(value, other) {
-    const c1 = value === other
-    const c2 = (value !== value && other !== other)
-    return c1 || c2
+    if (value === other) {
+        return true
+    }
+    if (value !== value && other !== other) {
+        return true
+    }
+    return false
 }
