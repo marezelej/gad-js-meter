@@ -1,19 +1,3 @@
-function cartesianProduct(setA, setB) {
-    if (!setA || !setB || !setA.length || !setB.length) {
-        return null;
-    }
-
-    const product = [];
-
-    for (let indexA = 0; indexA < setA.length; indexA += 1) {
-        for (let indexB = 0; indexB < setB.length; indexB += 1) {
-        product.push([setA[indexA], setB[indexB]]);
-        }
-    }
-  
-    return product;
-  }
-
 function cartesianProduct(set1, set2) {
     if (!set1 || !set2 || set1.length == 0 || set2.length == 0) {
       console.log("Invalid sets.");
