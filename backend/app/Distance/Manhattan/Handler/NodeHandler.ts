@@ -1,5 +1,5 @@
 import {Node} from 'acorn'
-import {CodeVector} from 'App/Distance/Euclidean/MetricVectorsDistance'
+import {CodeVector} from 'App/Distance/Manhattan/MetricVectorsDistance'
 
 export default interface NodeHandler {
   handle({ node, ancestors }: { node: Node, ancestors: Node[] }): void
