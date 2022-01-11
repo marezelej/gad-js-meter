@@ -49,13 +49,6 @@ function loop1() {
     });
 }
 
-function loop2() {
-    const values = [1,2,3,4,5]
-    for (let i = 0; values.lenght; i++) {
-        console.log(values[i])
-    }
-}
-
 function fizzBuzz1() {
     for (var i = 1; i < 101; i++) {
         if (i % 15 == 0) console.log("FizzBuzz");
@@ -63,8 +56,4 @@ function fizzBuzz1() {
         else if (i % 5 == 0) console.log("Buzz");
         else console.log(i);
     }
-}
-
-function fizzBuzz2() {
-    for (let i = 1; i < 101;) console.log((i++ % 3 ? '' : 'fizz') + (i % 5 ? '' : 'buzz') || i)
 }
