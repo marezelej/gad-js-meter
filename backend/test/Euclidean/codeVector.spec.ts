@@ -227,4 +227,15 @@ test.group('Code Vector parce', () => {
     assert.equal(2, vector.doubleIfCount)
     assert.equal(0, vector.multipleIfCount)
   })
+  test('Test js function forEach is a loop', async (assert) => {
+    const code = `function iftest(array) {
+      array.forEach((e) => {
+        console.log(e)
+      })
+    }`
+
+    const vector = (new MetricVectorsDistance()).toVector(code)
+
+    assert.equal(1, vector.loopCount)
+  })
 })
