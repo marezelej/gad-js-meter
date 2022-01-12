@@ -1,6 +1,7 @@
 import {BaseCommand, flags} from '@adonisjs/core/build/standalone'
-import CodeImporter from "App/Code/CodeImporter";
-import CodeRangeSearch from "App/Code/CodeRangeSearch";
+import CodeImporter from 'App/Code/CodeImporter'
+import CodeRangeSearch from 'App/Code/CodeRangeSearch'
+import FunctionCode from 'App/Models/FunctionCode'
 
 export default class MeasureCode extends BaseCommand {
   public static commandName = 'code:measure'
@@ -22,10 +23,14 @@ export default class MeasureCode extends BaseCommand {
     this.logger.info(`Measuring with first ${this.getSearchLimit()} functions metric.`)
     const importer = new CodeImporter()
     const functions = await importer.handle('../code-samples', 5000)
+    let totalCount = 0
     for (let i = 0; i < functions.length; i += 2) {
+      if (!await this.validateFunctions(functions[i], functions[i + 1])) {
+        continue
+      }
       await this.loadMeasure(functions[i], functions[i + 1])
+      totalCount++
     }
-    const totalCount = functions.length / 2
     this.logger.info(`Measure results:`)
     this.logger.info(`Total count: ${totalCount}`)
     this.logger.info(`First assert count: ${this.metric.firstAssertCount} (${(this.metric.firstAssertCount * 100 / totalCount).toFixed(2)}%)`)
@@ -36,7 +41,7 @@ export default class MeasureCode extends BaseCommand {
     const results = await this.searchService.search(modifiedCode, this.getSearchDistance(), this.getSearchLimit())
     const found = results.filter((result) => result.code === dbCode).length > 0
     if (!found) {
-      return;
+      return
     }
     this.measureNotBad()
     if (results[0].code === dbCode) {
@@ -58,6 +63,20 @@ export default class MeasureCode extends BaseCommand {
 
   private measureFirstAssert() {
     this.metric.firstAssertCount++
+  }
+
+  private async validateFunctions(dbCode: string, modifiedCode: string) {
+    if (!await FunctionCode.query().where('code', dbCode).first()) {
+      this.logger.warning('Missing DB function:')
+      this.logger.warning(dbCode)
+      return false
+    }
+    if (await FunctionCode.query().where('code', modifiedCode).first()) {
+      this.logger.warning('Existing sample function:')
+      this.logger.warning(modifiedCode)
+      return false
+    }
+    return true
   }
 }
 
