@@ -1,9 +1,11 @@
 import {BaseHandler} from 'App/Distance/Manhattan/Handler/NodeHandler'
 import {Node} from 'acorn'
+import { checkLoop } from './LoopHandler'
 
 export class CallExpression extends BaseHandler  {
   handle({ node, ancestors }) {
     this.checkRecursion(node, ancestors)
+    checkLoop(ancestors, this.vector)
   }
 
   private checkRecursion(node: Node, ancestors: Node[]) {
