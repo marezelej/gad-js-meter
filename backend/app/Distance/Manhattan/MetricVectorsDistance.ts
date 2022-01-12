@@ -70,3 +70,7 @@ export default class MetricVectorsDistance {
     return buildVisitor(vector)
   }
 }
+
+export function toVector(code: string): CodeVector {
+  return (new MetricVectorsDistance).toVector(code)
+}

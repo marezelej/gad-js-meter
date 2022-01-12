@@ -1,10 +1,13 @@
 import {HttpContextContract} from '@ioc:Adonis/Core/HttpContext'
 import CodeRangeSearch from 'App/Code/CodeRangeSearch'
+import {toVector} from "App/Distance/Manhattan/MetricVectorsDistance";
 
 export default class RangeSearchController {
   async handle({view, request}: HttpContextContract) {
+    const code = request.input('code', RangeSearchController.defaultCode())
     const data = {
-      code: request.input('code', RangeSearchController.defaultCode()),
+      code,
+      vector: toVector(code),
       range: request.input('range', 10),
       limit: request.input('limit', 10),
       showResults: request.input('code') || false,

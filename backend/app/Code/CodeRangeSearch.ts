@@ -3,10 +3,12 @@ import FunctionCode from 'App/Models/FunctionCode'
 import Pivot from 'App/Models/Pivot'
 import {default as NodeModel} from 'App/Models/Node'
 import {orderBy} from "lodash";
+import {CodeVector, toVector} from "App/Distance/Manhattan/MetricVectorsDistance";
 
 interface SearchResult {
   code: string
   distance: number
+  vector: CodeVector
 }
 
 export default class CodeRangeSearch {
@@ -28,7 +30,8 @@ export default class CodeRangeSearch {
       if (distance <= range) {
         results.push({
           code: fCode.code,
-          distance: distance
+          distance: distance,
+          vector: toVector(fCode.code)
         })
       }
     }
