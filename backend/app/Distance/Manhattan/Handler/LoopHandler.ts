@@ -1,4 +1,4 @@
-import {BaseHandler} from 'App/Distance/Euclidean/Handler/NodeHandler'
+import {BaseHandler} from 'App/Distance/Manhattan/Handler/NodeHandler'
 
 export class LoopStatement extends BaseHandler  {
   handle({ node: _node, ancestors }) {

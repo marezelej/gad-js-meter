@@ -1,4 +1,4 @@
-import {BaseHandler} from 'App/Distance/Euclidean/Handler/NodeHandler'
+import {BaseHandler} from 'App/Distance/Manhattan/Handler/NodeHandler'
 import {Node} from 'acorn'
 
 export class FunctionDeclaration extends BaseHandler {

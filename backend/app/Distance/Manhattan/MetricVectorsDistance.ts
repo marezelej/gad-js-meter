@@ -1,6 +1,6 @@
 import {Parser} from 'acorn'
 import {ancestor, AncestorVisitors} from 'acorn-walk'
-import buildVisitor from 'App/Distance/Euclidean/DefaultVisitor'
+import buildVisitor from 'App/Distance/Manhattan/DefaultVisitor'
 import {sum} from 'lodash'
 
 export class CodeVector {

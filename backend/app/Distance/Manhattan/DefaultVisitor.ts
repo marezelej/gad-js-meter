@@ -1,15 +1,15 @@
-import NodeVisitor from 'App/Distance/Euclidean/NodeVisitor'
-import {CodeVector} from 'App/Distance/Euclidean/MetricVectorsDistance'
+import NodeVisitor from 'App/Distance/Manhattan/NodeVisitor'
+import {CodeVector} from 'App/Distance/Manhattan/MetricVectorsDistance'
 import {
   DoWhileStatement,
   ForStatement,
   ForInStatement,
   WhileStatement
-} from 'App/Distance/Euclidean/Handler/LoopHandler'
-import {FunctionDeclaration} from 'App/Distance/Euclidean/Handler/DeclarationHandler'
+} from 'App/Distance/Manhattan/Handler/LoopHandler'
+import {FunctionDeclaration} from 'App/Distance/Manhattan/Handler/DeclarationHandler'
 import {Node} from 'acorn'
-import {BinaryExpression , ArrayExpression, CallExpression} from 'App/Distance/Euclidean/Handler/ExpresionHandler'
-import {IfStatement} from 'App/Distance/Euclidean/Handler/ChoiceHandler'
+import {BinaryExpression , ArrayExpression, CallExpression} from 'App/Distance/Manhattan/Handler/ExpresionHandler'
+import {IfStatement} from 'App/Distance/Manhattan/Handler/ChoiceHandler'
 
 export default function buildVisitor(vector: CodeVector) {
   const visitor = (new NodeVisitor)

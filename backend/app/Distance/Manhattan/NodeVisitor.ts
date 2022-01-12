@@ -1,5 +1,5 @@
 import {Node} from 'acorn'
-import NodeHandler from 'App/Distance/Euclidean/Handler/NodeHandler'
+import NodeHandler from 'App/Distance/Manhattan/Handler/NodeHandler'
 
 export default class NodeVisitor {
   handlers = {}

@@ -1,5 +1,5 @@
 import test from 'japa'
-import MetricVectorsDistance from 'App/Distance/Euclidean/MetricVectorsDistance'
+import MetricVectorsDistance from 'App/Distance/Manhattan/MetricVectorsDistance'
 
 test.group('Code Vector parce', () => {
   test('Test function without loops and variables', async (assert) => {

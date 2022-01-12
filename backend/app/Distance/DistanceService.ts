@@ -1,5 +1,5 @@
 import DistanceServiceInterface from 'App/Distance/Contract'
-import MetricVectorsDistance from 'App/Distance/Euclidean/MetricVectorsDistance'
+import MetricVectorsDistance from 'App/Distance/Manhattan/MetricVectorsDistance'
 
 export default class DistanceService implements DistanceServiceInterface {
   private strategy = new MetricVectorsDistance()
