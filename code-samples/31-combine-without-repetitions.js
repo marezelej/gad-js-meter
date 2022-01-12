@@ -26,23 +26,23 @@ function combineWithoutRepetitions(comboOptions, comboLength) {
     return combos;
 }
 
-  function combineWithoutRepetitions(options, length) {
+function combineWithoutRepetitions2(options, length) {
     if (length <= 1) {
-      return options.map((comboOption) => [comboOption]);
+        return options.map((comboOption) => [comboOption]);
     }
-  
+
     const combinations = [];
     options.forEach((currentOption, optionIndex) => {
-      const smallerCombos = combineWithoutRepetitions(
-        options.slice(optionIndex + 1),
-        length - 1,
-      );
-  
-      smallerCombos.forEach((smallerCombo) => {
-        combinations.push([currentOption].concat(smallerCombo));
-      });
+        const smallerCombos = combineWithoutRepetitions(
+            options.slice(optionIndex + 1),
+            length - 1,
+        );
+
+        smallerCombos.forEach((smallerCombo) => {
+            combinations.push([currentOption].concat(smallerCombo));
+        });
     });
-  
+
     console.log(combinations);
     return combinations;
-  }
+}
