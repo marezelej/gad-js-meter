@@ -22,30 +22,30 @@
 */
 
 class Combinations {
-  constructor (n, k) {
-    this.n = n
-    this.k = k
-    this.current = [] // will be used for storing current combination
-    this.combinations = []
-  }
+    constructor(n, k) {
+        this.n = n
+        this.k = k
+        this.current = [] // will be used for storing current combination
+        this.combinations = []
+    }
 
-  findCombinations (high = this.n, total = this.k, low = 1) {
-    if (total === 0) {
-      this.combinations.push([...this.current])
-      return this.combinations
+    findCombinations(high = this.n, total = this.k, low = 1) {
+        if (total === 0) {
+            this.combinations.push([...this.current])
+            return this.combinations
+        }
+        for (let i = low; i <= high; i++) {
+            this.current.push(i)
+            this.findCombinations(high, total - 1, i + 1)
+            this.current.pop()
+        }
+        return this.combinations
     }
-    for (let i = low; i <= high; i++) {
-      this.current.push(i)
-      this.findCombinations(high, total - 1, i + 1)
-      this.current.pop()
-    }
-    return this.combinations
-  }
 }
 
 
 function palindromeChecker(str) {
-  const strReversed = str.split("").reverse().join("");
-  return strReversed === str ? "es palindromo" : "no es palindromo";
+    const strReversed = str.split("").reverse().join("");
+    return strReversed === str ? "es palindromo" : "no es palindromo";
 }
 

@@ -14,25 +14,25 @@
  * // => Allows adding up to 4 contacts to the list.
  */
 function before(n, func) {
-  let result
-  if (typeof func !== 'function') {
-    throw new TypeError('Expected a function')
-  }
-  return function(...args) {
-    if (--n > 0) {
-      result = func.apply(this, args)
+    let result
+    if (typeof func !== 'function') {
+        throw new TypeError('Expected a function')
     }
-    if (n <= 1) {
-      func = undefined
+    return function (...args) {
+        if (--n > 0) {
+            result = func.apply(this, args)
+        }
+        if (n <= 1) {
+            func = undefined
+        }
+        return result
     }
-    return result
-  }
 }
 
 
 function getScore() {
-  const num1 = 2
-  const num2 = 3
-  const name = 'Chamahk'
-  return name + ' anotó ' + (num1 + num2);
+    const num1 = 2
+    const num2 = 3
+    const name = 'Chamahk'
+    return name + ' anotó ' + (num1 + num2);
 }

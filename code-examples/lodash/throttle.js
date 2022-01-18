@@ -1,6 +1,3 @@
-
-
-
 /**
  * Creates a throttled function that only invokes `func` at most once per
  * every `wait` milliseconds (or once per browser frame). The throttled function
@@ -50,21 +47,21 @@
  * jQuery(window).on('popstate', throttled.cancel)
  */
 function throttle(func, wait, options) {
-  let leading = true
-  let trailing = true
+    let leading = true
+    let trailing = true
 
-  if (typeof func !== 'function') {
-    throw new TypeError('Expected a function')
-  }
-  if (isObject(options)) {
-    leading = 'leading' in options ? !!options.leading : leading
-    trailing = 'trailing' in options ? !!options.trailing : trailing
-  }
-  return debounce(func, wait, {
-    leading,
-    trailing,
-    'maxWait': wait
-  })
+    if (typeof func !== 'function') {
+        throw new TypeError('Expected a function')
+    }
+    if (isObject(options)) {
+        leading = 'leading' in options ? !!options.leading : leading
+        trailing = 'trailing' in options ? !!options.trailing : trailing
+    }
+    return debounce(func, wait, {
+        leading,
+        trailing,
+        'maxWait': wait
+    })
 }
 
 

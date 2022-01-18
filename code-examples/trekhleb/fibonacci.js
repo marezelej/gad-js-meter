@@ -41,3 +41,9 @@ function fibonacciNth(n) {
 
     return currentValue;
 }
+
+function fibonacciRecursive(n) {
+    return n < 1 ? 0
+        : n <= 2 ? 1
+            : fibonacciRecursive(n - 1) + fibonacciRecursive(n - 2)
+}

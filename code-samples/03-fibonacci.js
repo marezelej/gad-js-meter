@@ -1,7 +1,7 @@
-function fibonacci(n) {
+function fibonacciRecursive(n) {
     return n < 1 ? 0
-         : n <= 2 ? 1
-         : fibonacci(n - 1) + fibonacci(n - 2)
+        : n <= 2 ? 1
+            : fibonacciRecursive(n - 1) + fibonacciRecursive(n - 2)
 }
 
 function fib(n) {
