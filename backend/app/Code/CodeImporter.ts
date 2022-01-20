@@ -46,7 +46,7 @@ export default class CodeImporter {
           .then((content) => {
             try {
               const newFunctions = this.getFunctions(content)
-              console.log(`Found ${newFunctions.length} functions at file ${filename}`)
+              // console.log(`Found ${newFunctions.length} functions at file ${filename}`)
               functions.push(...newFunctions)
             } catch (error) {
               console.log(`Error parsing file ${filename}`)
