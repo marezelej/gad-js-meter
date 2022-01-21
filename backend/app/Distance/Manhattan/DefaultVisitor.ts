@@ -10,6 +10,7 @@ import {FunctionDeclaration} from 'App/Distance/Manhattan/Handler/DeclarationHan
 import {Node} from 'acorn'
 import {BinaryExpression , ArrayExpression, CallExpression} from 'App/Distance/Manhattan/Handler/ExpresionHandler'
 import {IfStatement} from 'App/Distance/Manhattan/Handler/ChoiceHandler'
+import {AssignmentExpression, UpdateExpression} from 'App/Distance/Manhattan/Handler/BinaryOperationHandler'
 
 export default function buildVisitor(vector: CodeVector) {
   const visitor = (new NodeVisitor)
@@ -22,6 +23,8 @@ export default function buildVisitor(vector: CodeVector) {
     .addHandler(new IfStatement(vector))
     .addHandler(new ArrayExpression(vector))
     .addHandler(new BinaryExpression (vector))
+    .addHandler(new UpdateExpression (vector))
+    .addHandler(new AssignmentExpression (vector))
   // @ts-ignore
   return new Proxy({}, {
     get: function(_target, name: string){
