@@ -14,10 +14,20 @@ async function startHttpServer() {
   await new Ignitor(__dirname).httpServer().start()
 }
 
+function getTestFiles() {
+  let userDefined = process.argv.slice(2)[0]
+  if (!userDefined) {
+    return 'test/**/*.spec.ts'
+  }
+
+  // @ts-ignore
+  return `${userDefined.replace(/\.ts$|\.js$/, '').replaceAll('\\\\', '/')}.ts`
+}
+
 /**
  * Configure test runner
  */
 configure({
-  files: ['test/**/*.spec.ts'],
+  files: getTestFiles(),
   before: [startHttpServer],
 })

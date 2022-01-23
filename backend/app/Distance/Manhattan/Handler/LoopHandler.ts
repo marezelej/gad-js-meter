@@ -1,32 +1,40 @@
 import { Node } from 'acorn'
-import {BaseHandler} from 'App/Distance/Manhattan/Handler/NodeHandler'
+import { BaseHandler } from 'App/Distance/Manhattan/Handler/NodeHandler'
 
-export class LoopStatement extends BaseHandler  {
-  handle({ node, ancestors }) {
+export class LoopStatement extends BaseHandler {
+  public handle({ node, ancestors }) {
     checkLoop(node, ancestors, this.vector)
   }
 }
 
-export class ForStatement extends LoopStatement  {
-}
+export class ForStatement extends LoopStatement {}
 
-export class ForInStatement extends LoopStatement  {
-}
+export class ForInStatement extends LoopStatement {}
 
-export class WhileStatement extends LoopStatement  {
-}
+export class WhileStatement extends LoopStatement {}
 
-export class DoWhileStatement extends LoopStatement  {
-}
+export class DoWhileStatement extends LoopStatement {}
 
 function isLoopStatement(node) {
   const statements = ['ForStatement', 'ForInStatement', 'WhileStatement', 'DoWhileStatement']
   return statements.includes(node.type)
 }
 
-function isLoopCallExpression(node) {
-  const functions = ['forEach', 'filter', 'map', 'find', 'includes', 'every', 'reduce', 'reverse', 'some', 'sort', 'findIndex']
-  return (node.type === 'CallExpression' && functions.includes(node.callee?.property?.name))
+export function isLoopCallExpression(node) {
+  const functions = [
+    'forEach',
+    'filter',
+    'map',
+    'find',
+    'includes',
+    'every',
+    'reduce',
+    'reverse',
+    'some',
+    'sort',
+    'findIndex',
+  ]
+  return node.type === 'CallExpression' && functions.includes(node.callee?.property?.name)
 }
 
 function isRecursiveCall(node, functionName: string) {
@@ -44,9 +52,7 @@ export function checkLoop(node: Node, ancestors: Node[], vector) {
     return
   }
   vector.loopCount++
-  const loopAncestorsCont = ancestors
-    .filter((n) => isLoop(n, functionName))
-    .length - 1
+  const loopAncestorsCont = ancestors.filter((n) => isLoop(n, functionName)).length - 1
   if (loopAncestorsCont === 0) {
     vector.simpleLoopCount++
   } else if (loopAncestorsCont === 1) {

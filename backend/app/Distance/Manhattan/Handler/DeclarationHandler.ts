@@ -1,10 +1,10 @@
-import {BaseHandler} from 'App/Distance/Manhattan/Handler/NodeHandler'
-import {Node} from 'acorn'
+import { BaseHandler } from 'App/Distance/Manhattan/Handler/NodeHandler'
+import { Node } from 'acorn'
 
 export class FunctionDeclaration extends BaseHandler {
   private isHeader = true
 
-  handle({ node }) {
+  public handle({ node }) {
     this.handleHeader(node)
   }
 

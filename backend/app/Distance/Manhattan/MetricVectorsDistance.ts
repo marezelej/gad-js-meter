@@ -1,29 +1,29 @@
-import {Parser} from 'acorn'
-import {ancestor, AncestorVisitors} from 'acorn-walk'
+import { Parser } from 'acorn'
+import { ancestor, AncestorVisitors } from 'acorn-walk'
 import buildVisitor from 'App/Distance/Manhattan/DefaultVisitor'
-import {sum} from 'lodash'
+import { sum } from 'lodash'
 
 export class CodeVector {
-  loopCount = 0
-  simpleLoopCount = 0 // sin nivel de anidamiento
-  doubleLoopCount = 0 // 1 nivel de anidamiento
-  multipleLoopCount = 0 // 2 o más niveles de anidamiento
-  sumOpCount = 0
-  diffOpCount = 0
-  divOpCount = 0
-  prodOpCount = 0
-  concatOpCount = 0
-  paramsCount = 0 // Tiene más importancia, podríamos dar más peso (5 por ejemplo)
-  maxTreeDeep = 0
-  ifCount = 0
-  simpleIfCount = 0 // sin nivel de anidamiento
-  doubleIfCount = 0 // 1 nivel de anidamiento
-  multipleIfCount = 0 // 2 o más niveles de anidamiento
-  hasArrays = 0 // Utilizar un peso para darle más importancia, como 10 por ejemplo
+  public loopCount = 0
+  public simpleLoopCount = 0 // sin nivel de anidamiento
+  public doubleLoopCount = 0 // 1 nivel de anidamiento
+  public multipleLoopCount = 0 // 2 o más niveles de anidamiento
+  public sumOpCount = 0
+  public diffOpCount = 0
+  public divOpCount = 0
+  public prodOpCount = 0
+  public concatOpCount = 0
+  public paramsCount = 0 // Tiene más importancia, podríamos dar más peso (5 por ejemplo)
+  public maxTreeDeep = 0
+  public ifCount = 0
+  public simpleIfCount = 0 // sin nivel de anidamiento
+  public doubleIfCount = 0 // 1 nivel de anidamiento
+  public multipleIfCount = 0 // 2 o más niveles de anidamiento
+  public hasArrays = 0 // Utilizar un peso para darle más importancia, como 10 por ejemplo
 }
 
 export default class MetricVectorsDistance {
-  async distance(a: string, b: string): Promise<number> {
+  public async distance(a: string, b: string): Promise<number> {
     const aVector = Object.values(this.toVector(a))
     const bVector = Object.values(this.toVector(b))
     const wVector = Object.values(this.getWeightVector())
@@ -53,8 +53,8 @@ export default class MetricVectorsDistance {
 
   public toVector(code: string): CodeVector {
     const vector = new CodeVector()
-    try{
-      const tree = Parser.parse(code, {ecmaVersion: 'latest'})
+    try {
+      const tree = Parser.parse(code, { ecmaVersion: 'latest' })
       ancestor(tree, this.getVisitors(vector))
     } catch (e) {
       console.log('Exception parsing code...')
@@ -72,5 +72,5 @@ export default class MetricVectorsDistance {
 }
 
 export function toVector(code: string): CodeVector {
-  return (new MetricVectorsDistance).toVector(code)
+  return new MetricVectorsDistance().toVector(code)
 }

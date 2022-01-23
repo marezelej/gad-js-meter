@@ -1,7 +1,14 @@
-import {BaseHandler} from 'App/Distance/Manhattan/Handler/NodeHandler';
+import { BaseHandler } from 'App/Distance/Manhattan/Handler/NodeHandler'
+
+export function isInsideLoop(ancestors) {
+  return ancestors.slice(-2)[0]?.type === 'ForStatement'
+}
 
 export class UpdateExpression extends BaseHandler {
-  handle({node}): void {
+  public handle({ node, ancestors }): void {
+    if (isInsideLoop(ancestors)) {
+      return
+    }
     if (node.operator === '++') {
       this.vector.sumOpCount++
     }
@@ -11,7 +18,10 @@ export class UpdateExpression extends BaseHandler {
   }
 }
 export class AssignmentExpression extends BaseHandler {
-  handle({node}): void {
+  public handle({ node, ancestors }): void {
+    if (isInsideLoop(ancestors)) {
+      return
+    }
     if (node.operator === '+=') {
       this.vector.sumOpCount++
     }

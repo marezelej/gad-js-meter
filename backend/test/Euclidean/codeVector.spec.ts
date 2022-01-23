@@ -5,7 +5,7 @@ test.group('Code Vector parce', () => {
   test('Test function without loops and variables', async (assert) => {
     const code = `function sum(a, b) {return a + b}`
 
-    const vector = (new MetricVectorsDistance()).toVector(code)
+    const vector = new MetricVectorsDistance().toVector(code)
 
     assert.equal(vector.loopCount, 0)
     assert.equal(vector.paramsCount, 2)
@@ -29,7 +29,7 @@ test.group('Code Vector parce', () => {
       return r
     }`
 
-    const vector = (new MetricVectorsDistance()).toVector(code)
+    const vector = new MetricVectorsDistance().toVector(code)
 
     assert.equal(vector.loopCount, 3)
     assert.equal(vector.paramsCount, 1)
@@ -47,7 +47,7 @@ test.group('Code Vector parce', () => {
       }
     }`
 
-    const vector = (new MetricVectorsDistance()).toVector(code)
+    const vector = new MetricVectorsDistance().toVector(code)
 
     assert.equal(vector.loopCount, 1)
     assert.equal(vector.paramsCount, 1)
@@ -59,16 +59,16 @@ test.group('Code Vector parce', () => {
       return [1, 2, 3]
     }`
 
-    const vector = (new MetricVectorsDistance()).toVector(code)
+    const vector = new MetricVectorsDistance().toVector(code)
 
     assert.equal(vector.hasArrays, 1)
   })
   test('Test function sum operator count', async (assert) => {
     const code = `function sumop() {
-      return a + b 
+      return a + b
     }`
 
-    const vector = (new MetricVectorsDistance()).toVector(code)
+    const vector = new MetricVectorsDistance().toVector(code)
 
     assert.equal(vector.sumOpCount, 1)
   })
@@ -77,7 +77,7 @@ test.group('Code Vector parce', () => {
       return a - b - c
     }`
 
-    const vector = (new MetricVectorsDistance()).toVector(code)
+    const vector = new MetricVectorsDistance().toVector(code)
 
     assert.equal(vector.diffOpCount, 2)
   })
@@ -86,7 +86,7 @@ test.group('Code Vector parce', () => {
       return a / c
     }`
 
-    const vector = (new MetricVectorsDistance()).toVector(code)
+    const vector = new MetricVectorsDistance().toVector(code)
 
     assert.equal(vector.divOpCount, 1)
   })
@@ -95,7 +95,7 @@ test.group('Code Vector parce', () => {
       return a * c
     }`
 
-    const vector = (new MetricVectorsDistance()).toVector(code)
+    const vector = new MetricVectorsDistance().toVector(code)
 
     assert.equal(vector.prodOpCount, 1)
   })
@@ -106,7 +106,7 @@ test.group('Code Vector parce', () => {
       }
     }`
 
-    const vector = (new MetricVectorsDistance()).toVector(code)
+    const vector = new MetricVectorsDistance().toVector(code)
 
     assert.equal(1, vector.simpleLoopCount)
     assert.equal(0, vector.doubleLoopCount)
@@ -121,7 +121,7 @@ test.group('Code Vector parce', () => {
       }
     }`
 
-    const vector = (new MetricVectorsDistance()).toVector(code)
+    const vector = new MetricVectorsDistance().toVector(code)
 
     assert.equal(1, vector.simpleLoopCount)
     assert.equal(1, vector.doubleLoopCount)
@@ -140,7 +140,7 @@ test.group('Code Vector parce', () => {
       }
     }`
 
-    const vector = (new MetricVectorsDistance()).toVector(code)
+    const vector = new MetricVectorsDistance().toVector(code)
 
     assert.equal(1, vector.simpleLoopCount)
     assert.equal(1, vector.doubleLoopCount)
@@ -158,11 +158,12 @@ test.group('Code Vector parce', () => {
       }
     }`
 
-    const vector = (new MetricVectorsDistance()).toVector(code)
+    const vector = new MetricVectorsDistance().toVector(code)
 
     assert.equal(1, vector.simpleLoopCount)
     assert.equal(2, vector.doubleLoopCount)
     assert.equal(0, vector.multipleLoopCount)
+    assert.equal(0, vector.sumOpCount)
   })
   test('Test function with 0 nested if', async (assert) => {
     const code = `function iftest() {
@@ -171,7 +172,7 @@ test.group('Code Vector parce', () => {
       }
     }`
 
-    const vector = (new MetricVectorsDistance()).toVector(code)
+    const vector = new MetricVectorsDistance().toVector(code)
 
     assert.equal(1, vector.simpleIfCount)
     assert.equal(0, vector.doubleIfCount)
@@ -186,7 +187,7 @@ test.group('Code Vector parce', () => {
       }
     }`
 
-    const vector = (new MetricVectorsDistance()).toVector(code)
+    const vector = new MetricVectorsDistance().toVector(code)
 
     assert.equal(1, vector.simpleIfCount)
     assert.equal(1, vector.doubleIfCount)
@@ -203,7 +204,7 @@ test.group('Code Vector parce', () => {
       }
     }`
 
-    const vector = (new MetricVectorsDistance()).toVector(code)
+    const vector = new MetricVectorsDistance().toVector(code)
 
     assert.equal(1, vector.simpleIfCount)
     assert.equal(1, vector.doubleIfCount)
@@ -221,7 +222,7 @@ test.group('Code Vector parce', () => {
       }
     }`
 
-    const vector = (new MetricVectorsDistance()).toVector(code)
+    const vector = new MetricVectorsDistance().toVector(code)
 
     assert.equal(1, vector.simpleIfCount)
     assert.equal(2, vector.doubleIfCount)
@@ -234,8 +235,18 @@ test.group('Code Vector parce', () => {
       })
     }`
 
-    const vector = (new MetricVectorsDistance()).toVector(code)
+    const vector = new MetricVectorsDistance().toVector(code)
 
     assert.equal(1, vector.loopCount)
+  })
+  test('Test js inline if is considered', async (assert) => {
+    const code = `function inlineIf(cond, ok, notOk) {
+      return cond? ok : notOk
+    }`
+
+    const vector = new MetricVectorsDistance().toVector(code)
+
+    assert.equal(1, vector.ifCount)
+    assert.equal(1, vector.simpleIfCount)
   })
 })
