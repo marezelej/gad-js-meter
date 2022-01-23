@@ -26,6 +26,7 @@ export default class MeasureCode extends BaseCommand {
 
   @flags.boolean({ alias: 'i', description: 'Index functions list before measure' })
   public index: boolean
+  private totalCount: number
 
   public async run() {
     await this.runIndex()
@@ -33,22 +34,26 @@ export default class MeasureCode extends BaseCommand {
     const importer = new CodeImporter()
     const functions = await importer.handle('../code-samples', 5000)
     const results = await Promise.all(this.handleFunctions(functions))
-    const totalCount = results.filter((r) => r).length
+    this.totalCount = results.filter((r) => r).length
     this.logger.info(`Measure results:`)
-    this.logger.info(`Total count: ${totalCount}`)
-    this.logger.info(
-      `First assert count: ${this.metric.firstAssertCount} (${(
-        (this.metric.firstAssertCount * 100) /
-        totalCount
-      ).toFixed(2)}%)`
-    )
-    this.logger.info(
-      `Between ${this.getSearchLimit()} results assert count: ${this.metric.notBadCount} (${(
-        (this.metric.notBadCount * 100) /
-        totalCount
-      ).toFixed(2)}%)`
-    )
+    this.logger.info(`Total count: ${this.totalCount}`)
+    this.logger.info(this.firstAssertCountText())
+    this.logger.info(this.notBadResultText())
     await this.saveMeasureReport()
+  }
+
+  private firstAssertCountText() {
+    return `First assert count: ${this.metric.firstAssertCount} (${(
+      (this.metric.firstAssertCount * 100) /
+      this.totalCount
+    ).toFixed(2)}%)`
+  }
+
+  private notBadResultText() {
+    return `Between ${this.getSearchLimit()} results assert count: ${this.metric.notBadCount} (${(
+      (this.metric.notBadCount * 100) /
+      this.totalCount
+    ).toFixed(2)}%)`
   }
 
   private handleFunctions(functions) {
@@ -152,7 +157,11 @@ export default class MeasureCode extends BaseCommand {
 
   private async saveMeasureReport() {
     let report = '# Missing functions report\n\n'
-    this.measureReport += '### Sum of vectors abs diff:\n'
+    report += '### Measure Results:\n'
+    report += `- Total count: ${this.totalCount}\n`
+    report += `- ${this.firstAssertCountText()}\n`
+    report += `- ${this.notBadResultText()}\n`
+    report += '### Sum of vectors abs diff:\n'
     report += `\`\`\`\n${JSON.stringify(this.diffSumVector, null, 2)}\n\`\`\`\n`
     report += this.measureReport
     await writeFile(`../measure_report_${Date.now()}.md`, report)
