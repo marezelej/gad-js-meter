@@ -91,7 +91,6 @@ export default class MeasureCode extends BaseCommand {
     if (results[0].code === dbCode) {
       this.measureFirstAssert()
     }
-    await writeFile('../measure_report_1.md', this.measureReport)
   }
 
   private getSearchDistance(): number {

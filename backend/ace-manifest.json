@@ -78,6 +78,19 @@
           "propertyName": "distance",
           "type": "number",
           "alias": "d"
+        },
+        {
+          "name": "limit",
+          "propertyName": "limit",
+          "type": "number",
+          "alias": "l"
+        },
+        {
+          "name": "index",
+          "propertyName": "index",
+          "type": "boolean",
+          "alias": "i",
+          "description": "Index functions list before measure"
         }
       ]
     },
