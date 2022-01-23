@@ -1,10 +1,10 @@
-import {BaseCommand, flags} from '@adonisjs/core/build/standalone'
+import { BaseCommand, flags } from '@adonisjs/core/build/standalone'
 import CodeImporter from 'App/Code/CodeImporter'
 import CodeRangeSearch from 'App/Code/CodeRangeSearch'
 import FunctionCode from 'App/Models/FunctionCode'
 import { writeFile } from 'fs/promises'
-import {toVector} from "App/Distance/Manhattan/MetricVectorsDistance";
-import execa from "execa";
+import { toVector } from 'App/Distance/Manhattan/MetricVectorsDistance'
+import execa from 'execa'
 
 export default class MeasureCode extends BaseCommand {
   public static commandName = 'code:measure'
@@ -24,7 +24,7 @@ export default class MeasureCode extends BaseCommand {
   @flags.number({ alias: 'l' })
   public limit: number
 
-  @flags.boolean({alias: 'i', description: 'Index functions list before measure'})
+  @flags.boolean({ alias: 'i', description: 'Index functions list before measure' })
   public index: boolean
 
   public async run() {
@@ -32,19 +32,39 @@ export default class MeasureCode extends BaseCommand {
     this.logger.info(`Measuring with first ${this.getSearchLimit()} functions metric.`)
     const importer = new CodeImporter()
     const functions = await importer.handle('../code-samples', 5000)
-    let totalCount = 0
-    for (let i = 0; i < functions.length; i += 2) {
-      if (!await this.validateFunctions(functions[i], functions[i + 1])) {
-        continue
-      }
-      await this.loadMeasure(functions[i], functions[i + 1])
-      totalCount++
-    }
+    const results = await Promise.all(this.handleFunctions(functions))
+    const totalCount = results.filter((r) => r).length
     this.logger.info(`Measure results:`)
     this.logger.info(`Total count: ${totalCount}`)
-    this.logger.info(`First assert count: ${this.metric.firstAssertCount} (${(this.metric.firstAssertCount * 100 / totalCount).toFixed(2)}%)`)
-    this.logger.info(`Between ${this.getSearchLimit()} results assert count: ${this.metric.notBadCount} (${(this.metric.notBadCount * 100 / totalCount).toFixed(2)}%)`)
+    this.logger.info(
+      `First assert count: ${this.metric.firstAssertCount} (${(
+        (this.metric.firstAssertCount * 100) /
+        totalCount
+      ).toFixed(2)}%)`
+    )
+    this.logger.info(
+      `Between ${this.getSearchLimit()} results assert count: ${this.metric.notBadCount} (${(
+        (this.metric.notBadCount * 100) /
+        totalCount
+      ).toFixed(2)}%)`
+    )
     await this.saveMeasureReport()
+  }
+
+  private handleFunctions(functions) {
+    let promises: Promise<any>[] = []
+    for (let i = 0; i < functions.length; i += 2) {
+      promises.push(
+        new Promise(async (resolve) => {
+          if (!(await this.validateFunctions(functions[i], functions[i + 1]))) {
+            return resolve(false)
+          }
+          await this.loadMeasure(functions[i], functions[i + 1])
+          resolve(true)
+        })
+      )
+    }
+    return promises
   }
 
   private async runIndex() {
@@ -57,7 +77,11 @@ export default class MeasureCode extends BaseCommand {
   }
 
   private async loadMeasure(dbCode: string, modifiedCode: string) {
-    const results = await this.searchService.search(modifiedCode, this.getSearchDistance(), this.getSearchLimit())
+    const results = await this.searchService.search(
+      modifiedCode,
+      this.getSearchDistance(),
+      this.getSearchLimit()
+    )
     const found = results.filter((result) => result.code === dbCode).length > 0
     if (!found) {
       this.loadMissingReport(dbCode, modifiedCode)
@@ -87,7 +111,7 @@ export default class MeasureCode extends BaseCommand {
   }
 
   private async validateFunctions(dbCode: string, modifiedCode: string) {
-    if (!await FunctionCode.query().where('code', dbCode).first()) {
+    if (!(await FunctionCode.query().where('code', dbCode).first())) {
       this.logger.warning('Missing DB function:')
       this.logger.warning(dbCode)
       return false
@@ -137,6 +161,6 @@ export default class MeasureCode extends BaseCommand {
 }
 
 class Metric {
-  firstAssertCount: number = 0 // Era el primer resultado
-  notBadCount: number = 0 // Estaba entre los primeros n
+  public firstAssertCount: number = 0 // Era el primer resultado
+  public notBadCount: number = 0 // Estaba entre los primeros n
 }
