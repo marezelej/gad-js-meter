@@ -42,7 +42,7 @@ export default class MetricVectorsDistance {
       prodOpCount: 1,
       concatOpCount: 1,
       paramsCount: 1,
-      maxTreeDeep: 1,
+      maxTreeDeep: 0,
       ifCount: 1,
       simpleIfCount: 1,
       doubleIfCount: 1,

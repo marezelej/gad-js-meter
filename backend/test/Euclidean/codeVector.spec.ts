@@ -249,4 +249,13 @@ test.group('Code Vector parce', () => {
     assert.equal(1, vector.ifCount)
     assert.equal(1, vector.simpleIfCount)
   })
+  test('Test js array accessing is considered', async (assert) => {
+    const code = `function inlineIf(arr) {
+      return arr[0]
+    }`
+
+    const vector = new MetricVectorsDistance().toVector(code)
+
+    assert.equal(1, vector.hasArrays)
+  })
 })

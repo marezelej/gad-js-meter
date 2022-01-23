@@ -10,7 +10,11 @@ export class CallExpression extends BaseHandler {
   }
 
   private checkHasArrays(node) {
-    if (isLoopCallExpression(node)) {
+    if (this.vector.hasArrays) {
+      return
+    }
+    const arrayCallExpressions = ['slice', 'add']
+    if (isLoopCallExpression(node) || arrayCallExpressions.includes(node.callee?.property?.name)) {
       this.vector.hasArrays = 1
     }
   }
@@ -42,5 +46,13 @@ export class BinaryExpression extends BaseHandler {
 export class ConditionalExpression extends BaseHandler {
   public handle({ node, ancestors }): void {
     IfCountCheck.check(this.vector, node, ancestors)
+  }
+}
+
+export class MemberExpression extends BaseHandler {
+  public handle({ node }): void {
+    if (node.computed) {
+      this.vector.hasArrays = 1
+    }
   }
 }

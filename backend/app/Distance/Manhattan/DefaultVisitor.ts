@@ -13,6 +13,7 @@ import {
   ArrayExpression,
   CallExpression,
   ConditionalExpression,
+  MemberExpression,
 } from 'App/Distance/Manhattan/Handler/ExpresionHandler'
 import { IfStatement } from 'App/Distance/Manhattan/Handler/ChoiceHandler'
 import {
@@ -34,6 +35,7 @@ export default function buildVisitor(vector: CodeVector) {
     .addHandler(new UpdateExpression(vector))
     .addHandler(new AssignmentExpression(vector))
     .addHandler(new ConditionalExpression(vector))
+    .addHandler(new MemberExpression(vector))
   // @ts-ignore
   return new Proxy(
     {},
